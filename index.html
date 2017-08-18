@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang=en>
+<head>
+    <meta charset=utf-8>
+    <title>Black And White TileLayer</title>
+    <style>
+        body { margin: 0; }
+        #map { height: 100%; }
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+        integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+        crossorigin=""/>
+	<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+	  integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+	  crossorigin=""></script>
+    <script src="TileLayer.BlackAndWhite.js"></script>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+		function initMap() {
+			var osmUrl='http://tile.openstreetmap.org/{z}/{x}/{y}.png';
+			var osmAttrib='Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors | <a href="https://leafletjs.com">Leaflet</a> | js + html: <a href="http://ideale.ch"<a.l.e</a>';
+
+			var map = L.map('map', {fadeAnimation: false}).setView([25, -4], 3);
+
+            L.tileLayer.blackAndWhite(
+                osmUrl,
+                {
+                    attribution: osmAttrib,
+                    maxZoom: 18, minZoom: 2
+                }
+            ).addTo(map);
+		}
+		initMap();
+    </script>
+</body>
+</html>
