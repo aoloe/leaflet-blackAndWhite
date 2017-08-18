@@ -4,53 +4,53 @@
  */
 
 L.TileLayer.BlackAndWhite = L.TileLayer.extend({
-	options: {
+    options: {
         whiteThreshold: 210 // colors avarages bigger than the threshold are considered white
-	},
+    },
 
-	initialize: function (url, options) {
-		options.crossOrigin = true;
-		L.TileLayer.prototype.initialize.call(this, url, options);
+    initialize: function (url, options) {
+        options.crossOrigin = true;
+        L.TileLayer.prototype.initialize.call(this, url, options);
 
-		this.on('tileload', function(e) {
-			this._makeGrayscale(e.tile);
-		});
-	},
+        this.on('tileload', function(e) {
+            this._makeGrayscale(e.tile);
+        });
+    },
 
-	_createTile: function () {
-		var tile = L.TileLayer.prototype._createTile.call(this);
-		tile.crossOrigin = "Anonymous";
-		return tile;
-	},
+    _createTile: function () {
+        var tile = L.TileLayer.prototype._createTile.call(this);
+        tile.crossOrigin = "Anonymous";
+        return tile;
+    },
 
-	_makeGrayscale: function (img) {
-		if (img.getAttribute('data-grayscaled'))
-			return;
+    _makeGrayscale: function (img) {
+        if (img.getAttribute('data-grayscaled'))
+            return;
 
-                img.crossOrigin = '';
-		var canvas = document.createElement("canvas");
-		canvas.width = img.width;
-		canvas.height = img.height;
-		var ctx = canvas.getContext("2d");
-		ctx.drawImage(img, 0, 0);
+        img.crossOrigin = '';
+        var canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
 
-		var imgd = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        var imgd = ctx.getImageData(0, 0, canvas.width, canvas.height);
         // one-dimensional array containing the data in the RGBA order, with integer values between 0 and 255 (included)
-		var pix = imgd.data;
-		for (var i = 0, n = pix.length; i < n; i += 4) {
+        var pix = imgd.data;
+        for (var i = 0, n = pix.length; i < n; i += 4) {
             var color = Math.max(pix[i], pix[i+1], pix[i+1]);
             var grayColor = 0;
             if (color > this.options.whiteThreshold) {
                 grayColor = 255;
             }
             pix[i] = pix[i + 1] = pix[i + 2] = grayColor;
-		}
-		ctx.putImageData(imgd, 0, 0);
-		img.setAttribute('data-grayscaled', true);
-		img.src = canvas.toDataURL();
-	}
+        }
+        ctx.putImageData(imgd, 0, 0);
+        img.setAttribute('data-grayscaled', true);
+        img.src = canvas.toDataURL();
+    }
 });
 
 L.tileLayer.blackAndWhite = function (url, options) {
-	return new L.TileLayer.BlackAndWhite(url, options);
+    return new L.TileLayer.BlackAndWhite(url, options);
 };
