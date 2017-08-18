@@ -5,7 +5,7 @@
 
 L.TileLayer.BlackAndWhite = L.TileLayer.extend({
     options: {
-        whiteThreshold: 210 // colors avarages bigger than the threshold are considered white
+        whiteThreshold: 210 // colors avarages bigger than the threshold are converted to white
     },
 
     initialize: function (url, options) {
