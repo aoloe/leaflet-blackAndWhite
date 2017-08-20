@@ -12,6 +12,12 @@ L.TileLayer.BlackAndWhite = L.TileLayer.extend({
         options.crossOrigin = true;
         L.TileLayer.prototype.initialize.call(this, url, options);
 
+        this.on('tileloadstart', function(e) {
+            if (e.tile.getAttribute('data-grayscaled'))
+                return
+            e.tile.classList.add('leaflet-tile-invisible');
+        });
+
         this.on('tileload', function(e) {
             this._makeGrayscale(e.tile);
         });
@@ -48,6 +54,10 @@ L.TileLayer.BlackAndWhite = L.TileLayer.extend({
         ctx.putImageData(imgd, 0, 0);
         img.setAttribute('data-grayscaled', true);
         img.src = canvas.toDataURL();
+        img.addEventListener('load', function(e) {
+            e.target.classList.remove('leaflet-tile-invisible');
+            console.log(e.target.classList);
+        });
     }
 });
 
