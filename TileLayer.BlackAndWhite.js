@@ -38,7 +38,7 @@ L.TileLayer.BlackAndWhite = L.TileLayer.extend({
         // one-dimensional array containing the data in the RGBA order, with integer values between 0 and 255 (included)
         var pix = imgd.data;
         for (var i = 0, n = pix.length; i < n; i += 4) {
-            var color = Math.max(pix[i], pix[i+1], pix[i+1]);
+            var color = Math.max(pix[i], pix[i+1], pix[i+2]);
             var grayColor = 0;
             if (color > this.options.whiteThreshold) {
                 grayColor = 255;
